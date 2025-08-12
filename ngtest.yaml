@@ -25,3 +25,17 @@ spec:
       image: nginx
       resources: {}
   restartPolicy: Always
+---
+# Cilium L2 Announcement Policy - Required for LoadBalancer IPs to be reachable
+apiVersion: cilium.io/v2alpha1
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: default-l2-announcement-policy
+  namespace: kube-system
+spec:
+  loadBalancerIPs: true
+  interfaces:
+  - eth0  # Change this to your node's network interface if different
+  nodeSelector:
+    matchLabels:
+      kubernetes.io/os: linux
